@@ -1,5 +1,5 @@
 {
-    "name": "Spinning Carousel Code",
+    "name": "Spinning Carousel Code (LED addition)",
     "description": "",
     "dependencies": {
         "core": "*",

@@ -3,16 +3,46 @@ function PattrnTypes () {
     	
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 1)) {
-    	
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.digitalWritePin(DigitalPin.P0, 1)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        pins.digitalWritePin(DigitalPin.P2, 1)
+        basic.pause(750)
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 0)
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 2)) {
-    	
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.digitalWritePin(DigitalPin.P0, 1)
+        basic.pause(250)
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        basic.pause(250)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 1)
+        basic.pause(250)
+        pins.digitalWritePin(DigitalPin.P2, 0)
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 3)) {
-    	
+        pins.digitalWritePin(DigitalPin.P0, randint(0, 1))
+        pins.digitalWritePin(DigitalPin.P1, randint(0, 1))
+        pins.digitalWritePin(DigitalPin.P2, randint(0, 1))
+        basic.pause(500)
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 4)) {
-    	
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        basic.pause(250)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P0, 1)
+        pins.digitalWritePin(DigitalPin.P2, 1)
     }
 }
 input.onButtonPressed(Button.A, function () {
@@ -58,11 +88,21 @@ input.onButtonPressed(Button.A, function () {
     }
     if (Menu == 1) {
         Which_pattern += 1
+        music.playSoundEffect(music.createSoundEffect(WaveShape.Square, 5000, 2207, 51, 255, 500, SoundExpressionEffect.Warble, InterpolationCurve.Curve), SoundExpressionPlayMode.UntilDone)
     }
 })
 function Display () {
     if (Menu == 1) {
         if (Which_pattern == 0) {
+            basic.showLeds(`
+                # . . . #
+                . # . # .
+                . . # . .
+                . # . # .
+                # . . . #
+                `)
+        }
+        if (Which_pattern == 1) {
             basic.showLeds(`
                 . . # . .
                 . # # . .
@@ -71,7 +111,7 @@ function Display () {
                 . # # # .
                 `)
         }
-        if (Which_pattern == 1) {
+        if (Which_pattern == 2) {
             basic.showLeds(`
                 . # # # .
                 # . . . #
@@ -80,31 +120,22 @@ function Display () {
                 # # # # #
                 `)
         }
-        if (Which_pattern == 2) {
-            basic.showLeds(`
-                . # # # .
-                # . . . #
-                . . # # .
-                # . . . #
-                . # # # .
-                `)
-        }
         if (Which_pattern == 3) {
             basic.showLeds(`
-                . . # # .
-                . # . # .
-                # # # # #
-                . . . # .
-                . . . # .
+                . # # # .
+                . . . . #
+                . . # # #
+                . . . . #
+                . # # # .
                 `)
         }
         if (Which_pattern == 4) {
             basic.showLeds(`
-                # # # # #
-                # . . . .
-                # # # # .
-                . . . . #
-                # # # # .
+                . . # # .
+                . # . # .
+                . # # # #
+                . . . # .
+                . . . # .
                 `)
         }
     }
@@ -190,12 +221,12 @@ input.onButtonPressed(Button.B, function () {
     }
     if (Menu == 1) {
         Playing_pattern += 1
+        music.playSoundEffect(music.createSoundEffect(WaveShape.Sine, 5000, 5000, 255, 0, 250, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), SoundExpressionPlayMode.UntilDone)
     }
 })
 input.onGesture(Gesture.Shake, function () {
     basic.clearScreen()
     Menu += 1
-    Speed = 0
 })
 input.onLogoEvent(TouchButtonEvent.Pressed, function () {
     if (Menu == 0) {
@@ -247,7 +278,7 @@ let Patterns = [
 music.setVolume(255)
 led.setBrightness(255)
 basic.forever(function () {
-    servos.P0.run(Speed)
+    servos.P2.run(Speed)
     Speed_Logic()
     Display()
     PattrnTypes()
