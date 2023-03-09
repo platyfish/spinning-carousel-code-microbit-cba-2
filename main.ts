@@ -1,6 +1,8 @@
 function PattrnTypes () {
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 0)) {
-    	
+        pins.digitalWritePin(DigitalPin.P0, 1)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        pins.digitalWritePin(DigitalPin.P2, 1)
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 1)) {
         pins.digitalWritePin(DigitalPin.P0, 0)
@@ -9,7 +11,7 @@ function PattrnTypes () {
         pins.digitalWritePin(DigitalPin.P0, 1)
         pins.digitalWritePin(DigitalPin.P1, 1)
         pins.digitalWritePin(DigitalPin.P2, 1)
-        basic.pause(750)
+        basic.pause(1000)
         pins.digitalWritePin(DigitalPin.P0, 0)
         pins.digitalWritePin(DigitalPin.P1, 0)
         pins.digitalWritePin(DigitalPin.P2, 0)
@@ -27,6 +29,10 @@ function PattrnTypes () {
         pins.digitalWritePin(DigitalPin.P2, 1)
         basic.pause(250)
         pins.digitalWritePin(DigitalPin.P2, 0)
+        pins.digitalWritePin(DigitalPin.P1, 1)
+        basic.pause(250)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P0, 1)
     }
     if (Menu == 1 && (Playing_pattern == 1 && Which_pattern == 3)) {
         pins.digitalWritePin(DigitalPin.P0, randint(0, 1))
@@ -50,34 +56,6 @@ input.onButtonPressed(Button.A, function () {
         Speed += 1
         music.playTone(523, music.beat(BeatFraction.Whole))
         basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . # . .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . # . .
-            . # # # .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . # # # .
-            # . # . #
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . # . .
-            . # # # .
-            # . # . #
-            . . # . .
-            `)
-        basic.showLeds(`
             . . # . .
             . # # # .
             # . # . #
@@ -91,6 +69,13 @@ input.onButtonPressed(Button.A, function () {
         music.playSoundEffect(music.createSoundEffect(WaveShape.Square, 5000, 2207, 51, 255, 500, SoundExpressionEffect.Warble, InterpolationCurve.Curve), SoundExpressionPlayMode.UntilDone)
     }
 })
+function Miscellaneous_Logic () {
+    if (Menu == 1 && Playing_pattern == 0) {
+        pins.digitalWritePin(DigitalPin.P0, 0)
+        pins.digitalWritePin(DigitalPin.P1, 0)
+        pins.digitalWritePin(DigitalPin.P2, 0)
+    }
+}
 function Display () {
     if (Menu == 1) {
         if (Which_pattern == 0) {
@@ -124,7 +109,7 @@ function Display () {
             basic.showLeds(`
                 . # # # .
                 . . . . #
-                . . # # #
+                . . # # .
                 . . . . #
                 . # # # .
                 `)
@@ -159,20 +144,7 @@ buttonClicks.onButtonHeld(buttonClicks.AorB.B, function () {
             . # # # .
             . . # . .
             `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . . # . .
-            # . # . #
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . # . .
-            `)
+        basic.clearScreen()
     }
 })
 input.onButtonPressed(Button.AB, function () {
@@ -187,34 +159,6 @@ input.onButtonPressed(Button.B, function () {
             . . # . .
             # . # . #
             . # # # .
-            . . # . .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . # . .
-            . . # . .
-            # . # . #
-            . # # # .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . . # . .
-            # . # . #
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . # . .
-            . . # . .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
             . . # . .
             `)
         basic.clearScreen()
@@ -237,20 +181,6 @@ buttonClicks.onButtonHeld(buttonClicks.AorB.A, function () {
     if (Menu == 0) {
         Speed += 10
         music.playTone(784, music.beat(BeatFraction.Whole))
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . . . .
-            . . . . .
-            . . # . .
-            `)
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . # # # .
-            # . # . #
-            `)
         basic.showLeds(`
             . . # . .
             . # # # .
@@ -282,6 +212,7 @@ basic.forever(function () {
     Speed_Logic()
     Display()
     PattrnTypes()
+    Miscellaneous_Logic()
     if (Menu > 1) {
         Menu = 0
     }

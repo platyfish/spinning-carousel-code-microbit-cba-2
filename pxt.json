@@ -1,5 +1,5 @@
 {
-    "name": "Spinning Carousel Code (LED addition)",
+    "name": "Spinning Carousel Code (patched and animations removed)",
     "description": "",
     "dependencies": {
         "core": "*",
@@ -8,7 +8,8 @@
         "servo": "*",
         "power": "github:microbit-foundation/pxt-microbit-v2-power#v0.2.3",
         "microbit-pxt-clicks": "github:bsiever/microbit-pxt-clicks#v0.2.2",
-        "smarttools": "github:51bit/smarttools#v0.3.4"
+        "smarttools": "github:51bit/smarttools#v0.3.4",
+        "datalogger": "*"
     },
     "files": [
         "main.blocks",
